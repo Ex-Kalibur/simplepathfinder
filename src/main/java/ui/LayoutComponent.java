@@ -51,17 +51,27 @@ public class LayoutComponent extends JComponent {
         repaint();
     }
 
-    private void doPlaceSource(Point point){
-        sourceLocation = convertCoordToPoint(point);
-        System.out.println("Source placed in cell: " + sourceLocation);
+	private void doPlaceSource(Point point){
+		Point cellLoc = convertPointToCell(point);
+        if(!cellLoc.equals(sourceLocation) && !cellLoc.equals(destinationLocation)
+				&& layout.getWeightAt(cellLoc) != 1){
+
+			sourceLocation = cellLoc;
+			System.out.println("Source placed in cell: " + sourceLocation);
+		}
     }
 
-    private void doPlaceDestination(Point point){
-        destinationLocation = convertCoordToPoint(point);
-        System.out.println("Destination placed in cell: " + sourceLocation);
+	private void doPlaceDestination(Point point){
+		Point cellLoc = convertPointToCell(point);
+        if(!cellLoc.equals(sourceLocation) && !cellLoc.equals(destinationLocation)
+				&& layout.getWeightAt(cellLoc) != 1){
+
+        	destinationLocation = cellLoc;
+        	System.out.println("Destination placed in cell: " + sourceLocation);
+		}
     }
 
-    private Point convertCoordToPoint(Point point){
+	private Point convertPointToCell(Point point){
         return new Point((int)(point.x / scaleX), (int)(point.y / scaleY));
     }
 
