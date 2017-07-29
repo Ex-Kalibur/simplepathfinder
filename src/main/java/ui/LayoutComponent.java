@@ -92,17 +92,40 @@ public class LayoutComponent extends JComponent {
         Graphics2D g2 = (Graphics2D) g;
 
         //Draw walls
+		Dimension layoutSize = layout.getSize();
+		for(int i = 0; i < layoutSize.width; i++){
+			for(int j = 0; j < layoutSize.height; j++){
+				double weight = layout.getWeightAt(i, j);
+
+				if(weight == 1){
+					g2.setColor(Color.BLACK);
+					g2.fillRect((int) (i * scaleX), (int) (j * scaleY), (int) scaleX, (int) scaleY);
+				}
+			}
+		}
+
+		//Variables for drawing source/destination circles
+		int insetX = (int) (scaleX / 4);
+		int insetY = (int) (scaleY / 4);
+		int circleWidth = (int) (scaleX / 2);
+		int circleHeight = (int) (scaleY / 2);
 
         //Draw source
         if(sourceLocation != null) {
             g2.setColor(new Color(255, 0, 0));
-            g2.fillOval((int) (sourceLocation.x * scaleX) + 4, (int) (sourceLocation.y * scaleY) + 4, 10, 10);
+            g2.fillOval((int) (sourceLocation.x * scaleX) + insetX,
+					(int) (sourceLocation.y * scaleY) + insetY,
+					circleWidth,
+					circleHeight);
         }
 
         //Draw destination
         if(destinationLocation != null) {
             g2.setColor(new Color(0, 0, 255));
-            g2.fillOval((int) (destinationLocation.x * scaleX) + 4, (int) (destinationLocation.y * scaleY) + 4, 10, 10);
+			g2.fillOval((int) (destinationLocation.x * scaleX) + insetX,
+					(int) (destinationLocation.y * scaleY) + insetY,
+					circleWidth,
+					circleHeight);
         }
 
         //Draw path
