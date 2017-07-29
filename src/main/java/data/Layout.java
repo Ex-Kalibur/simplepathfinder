@@ -10,7 +10,7 @@ public class Layout {
     private double[][] weights;
 
     public Layout(){
-        size = new Dimension(0, 0);
+        size = new Dimension(1, 1);
         weights = new double[1][1];
         weights[0][0] = 0;
     }
@@ -38,6 +38,9 @@ public class Layout {
         return size;
     }
 
+	public double getWeightAt(Point point){
+		return getWeightAt(point.x, point.y);
+	}
     public double getWeightAt(int x, int y){
         return weights[x][y];
     }
