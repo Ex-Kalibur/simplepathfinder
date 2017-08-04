@@ -1,6 +1,7 @@
 package ui;
 
 import data.Layout;
+import data.Node;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,11 +17,11 @@ public class LayoutComponent extends JComponent {
     private Point sourceLocation;
     private Point destinationLocation;
 
-    public LayoutComponent(){
+	public LayoutComponent(){
         this(new Layout());
     }
 
-    public LayoutComponent(Layout layout){
+	public LayoutComponent(Layout layout){
         super();
         this.layout = layout;
 
@@ -42,7 +43,7 @@ public class LayoutComponent extends JComponent {
         });
     }
 
-    public void setLayoutComponent(Layout layout){
+	public void setLayoutComponent(Layout layout){
         this.layout = layout;
 
         calculateScale();
@@ -54,7 +55,7 @@ public class LayoutComponent extends JComponent {
 	private void doPlaceSource(Point point){
 		Point cellLoc = convertPointToCell(point);
         if(!cellLoc.equals(sourceLocation) && !cellLoc.equals(destinationLocation)
-				&& layout.getWeightAt(cellLoc) != 1){
+				&& layout.getNodeAt(cellLoc) != null && layout.getNodeAt(cellLoc).getWeight() != 1){
 
 			sourceLocation = cellLoc;
 			System.out.println("Source placed in cell: " + sourceLocation);
@@ -64,7 +65,7 @@ public class LayoutComponent extends JComponent {
 	private void doPlaceDestination(Point point){
 		Point cellLoc = convertPointToCell(point);
         if(!cellLoc.equals(sourceLocation) && !cellLoc.equals(destinationLocation)
-				&& layout.getWeightAt(cellLoc) != 1){
+				&& layout.getNodeAt(cellLoc) != null && layout.getNodeAt(cellLoc).getWeight() != 1){
 
         	destinationLocation = cellLoc;
         	System.out.println("Destination placed in cell: " + sourceLocation);
@@ -75,7 +76,7 @@ public class LayoutComponent extends JComponent {
         return new Point((int)(point.x / scaleX), (int)(point.y / scaleY));
     }
 
-    private void calculateScale(){
+	private void calculateScale(){
         Dimension size = getSize();
         Dimension layoutSize = layout.getSize();
         if(layoutSize.width > 0) {
@@ -105,9 +106,8 @@ public class LayoutComponent extends JComponent {
 		Dimension layoutSize = layout.getSize();
 		for(int i = 0; i < layoutSize.width; i++){
 			for(int j = 0; j < layoutSize.height; j++){
-				double weight = layout.getWeightAt(i, j);
-
-				if(weight == 1){
+				Node node = layout.getNodeAt(i, j);
+				if(node == null || node.getWeight() == 1){
 					g2.setColor(Color.BLACK);
 					g2.fillRect((int) (i * scaleX), (int) (j * scaleY), (int) scaleX, (int) scaleY);
 				}
