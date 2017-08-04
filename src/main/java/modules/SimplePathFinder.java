@@ -28,7 +28,10 @@ public class SimplePathFinder {
         });
     }
 
-    public static void initUI(){
+	/**
+	 * Initialize and show the UI
+	 */
+	public static void initUI(){
         frame = new JFrame("Simple A* Pathfinder");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);

@@ -17,10 +17,17 @@ public class LayoutComponent extends JComponent {
     private Point sourceLocation;
     private Point destinationLocation;
 
+	/**
+	 * Constructs an empty LayoutComponent whose Layout contains one cell
+	 */
 	public LayoutComponent(){
         this(new Layout());
     }
 
+	/**
+	 * Constructs a LayoutComponent with the specified Layout weights
+	 * @param layout the Layout of this component
+	 */
 	public LayoutComponent(Layout layout){
         super();
         this.layout = layout;
@@ -43,6 +50,10 @@ public class LayoutComponent extends JComponent {
         });
     }
 
+	/**
+	 * Sets the Layout of this LayoutComponent
+	 * @param layout the Layout to set
+	 */
 	public void setLayoutComponent(Layout layout){
         this.layout = layout;
 
@@ -52,6 +63,11 @@ public class LayoutComponent extends JComponent {
         repaint();
     }
 
+	/**
+	 * Places the pathfinding source at the specified Point. The location will not change if it is already occupied
+	 * or is a wall
+	 * @param point the Point at which to place the pathfinding source
+	 */
 	private void doPlaceSource(Point point){
 		Point cellLoc = convertPointToCell(point);
         if(!cellLoc.equals(sourceLocation) && !cellLoc.equals(destinationLocation)
@@ -62,6 +78,10 @@ public class LayoutComponent extends JComponent {
 		}
     }
 
+	/**
+	 * Places the pathfinding destination at the specified Point. The location will not change if it is already occupied
+	 * or is a wall	 * @param point the Point at which to place the pathfinding destination
+	 */
 	private void doPlaceDestination(Point point){
 		Point cellLoc = convertPointToCell(point);
         if(!cellLoc.equals(sourceLocation) && !cellLoc.equals(destinationLocation)
@@ -72,10 +92,18 @@ public class LayoutComponent extends JComponent {
 		}
     }
 
+	/**
+	 * Calculates indexes of the cell containing the specified Point
+	 * @param point the Point on which to find the containing cell
+	 * @return a Point representing the coordinates of the cell
+	 */
 	private Point convertPointToCell(Point point){
         return new Point((int)(point.x / scaleX), (int)(point.y / scaleY));
     }
 
+	/**
+	 * Calculates the vertical and horizontal scaling factor used to determine the dimensions of each cell
+	 */
 	private void calculateScale(){
         Dimension size = getSize();
         Dimension layoutSize = layout.getSize();
