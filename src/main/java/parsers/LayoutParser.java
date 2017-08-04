@@ -1,9 +1,12 @@
 package parsers;
 
 import data.Layout;
+import data.Node;
 
+import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -20,6 +23,7 @@ public class LayoutParser {
         try {
             Scanner scanner = new Scanner(file);
             int numTokens = -1;
+            int lineNumber = 1;
 
             //For each line in the file
             ArrayList<double[]> weights = new ArrayList<>();
@@ -31,7 +35,8 @@ public class LayoutParser {
                 if(numTokens == -1){
                     numTokens = tokens.length;
                 } else if(numTokens != tokens.length){
-                    throw new IllegalArgumentException();
+                    throw new ParseException("Expected number of tokens do not match. " +
+                            "Expected: " + numTokens + " Got: " + tokens.length, lineNumber);
                 }
 
                 //Parse each token
@@ -44,14 +49,11 @@ public class LayoutParser {
                 weights.add(lineWeights);
             }
 
-            //Convert ArrayList to double[][]
-            double[][] layoutWeights = new double[weights.size()][];
-            for(int i = 0; i < weights.size(); i++) {
-                layoutWeights[i] = weights.get(i);
-            }
+            //Convert array of weights to nodes
+            Node[][] nodes = convertWeightsToNodes(weights);
 
             //Add to layout
-            layout = new Layout(layoutWeights);
+            layout = new Layout(nodes);
             System.out.println(layout);
         } catch(Exception e){
             e.printStackTrace(System.err);
@@ -76,5 +78,34 @@ public class LayoutParser {
      */
     private static double parseToken(String token){
         return Double.parseDouble(token);
+    }
+
+
+    private static Node[][] convertWeightsToNodes(ArrayList<double[]> weights) {
+        Node[][] nodes = new Node[weights.size()][];
+        for(int x = 0; x < weights.size(); x++) {
+            double[] weightCol = weights.get(x);
+            Node[] nodeCol = new Node[weightCol.length];
+
+            for(int y = 0; y < weightCol.length; y++) {
+                double weight = weightCol[y];
+                if(weight != 1) {
+                    Node node = new Node();
+                    node.setWeight(weight);
+
+                    //Check neighbours: U, R, D, L
+                    if(0 <= y-1) node.addNeighbour(new Point(x, y-1));
+                    if(x+1 < weightCol.length) node.addNeighbour(new Point(x+1, y));
+                    if(y+1 < weights.size()) node.addNeighbour(new Point(x, y+1));
+                    if(0 <= x-1) node.addNeighbour(new Point(x-1, y));
+
+                    nodeCol[y] = node;
+                }
+            }
+
+            nodes[x] = nodeCol;
+        }
+
+        return nodes;
     }
 }

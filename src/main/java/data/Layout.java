@@ -7,48 +7,74 @@ import java.awt.*;
  */
 public class Layout {
     private Dimension size;
-    private double[][] weights;
+    private Node[][] nodes;
 
     public Layout(){
         size = new Dimension(0, 0);
-        weights = new double[1][1];
-        weights[0][0] = 0;
+        nodes = new Node[1][1];
+        nodes[0][0] = new Node();
     }
 
     /**
-     * Constructs a new Layout with the specified weights
-     * @param weights
+     * Constructs a new Layout with the specified nodes
+     * @param nodes
      */
-    public Layout(double[][] weights){
+    public Layout(Node[][] nodes){
         int height = 0;
         int width = 0;
-        if(weights.length > 0) {
-            width = weights.length;
-            height = weights[0].length;
+        if(nodes.length > 0) {
+            width = nodes.length;
+            height = nodes[0].length;
         }
         size = new Dimension(width, height);
-        this.weights = weights;
+        this.nodes = nodes;
     }
 
-    public double[][] getWeights(){
-        return weights;
+    /**
+    * Gets the array of Nodes representing this Layout
+    * @return the array of Nodes representing this Layout
+    */
+    public Node[][] getNodes(){
+        return nodes;
     }
 
+    /**
+    * Gets the Dimensions of this Layout
+    * @return the Dimensions of this Layout
+    */
     public Dimension getSize(){
         return size;
     }
 
-    public double getWeightAt(int x, int y){
-        return weights[x][y];
+    public Node getNodeAt(int x, int y) throws IndexOutOfBoundsException {
+        Node node = null;
+        if(0 <= x && x < size.width){
+            if(0 <= y && y < size.height){
+                node = nodes[x][y];
+            } else {
+                throw new IndexOutOfBoundsException("Index: " + y + " Height: " + size.height);
+            }
+        } else {
+            throw new IndexOutOfBoundsException("Index: " + x + " Height: " + size.width);
+        }
+        return nodes[x][y];
     }
+
+    public Node getNodeAt(Point point) throws IndexOutOfBoundsException{
+    	return getNodeAt(point.x, point.y);
+	}
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
-        for(double[] row : weights){
-            for(double weight : row){
-                sb.append(weight + " ");
+        for(Node[] row : nodes){
+            for(Node node : row){
+                if(node != null){
+                	sb.append(node.getWeight() + " ");
+				} else {
+                	sb.append("1 ");
+				}
             }
             sb.append("\n");
         }
