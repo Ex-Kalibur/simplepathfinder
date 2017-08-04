@@ -29,5 +29,5 @@ public abstract class AbstractPathfinder {
         this.layout = layout;
     }
 
-    public abstract LinkedList<Point> findPath();
+    public abstract Path findPath();
 }
