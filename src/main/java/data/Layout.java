@@ -10,7 +10,7 @@ public class Layout {
     private Node[][] nodes;
 
     public Layout(){
-        size = new Dimension(0, 0);
+        size = new Dimension(1, 1);
         nodes = new Node[1][1];
         nodes[0][0] = new Node();
     }
