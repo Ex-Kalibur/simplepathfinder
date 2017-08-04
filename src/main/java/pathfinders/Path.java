@@ -19,18 +19,18 @@ public class Path implements Iterable<Point> {
 		points.addAll(copy.points);
 	}
 
-	public void push(Point point){
+	public void add(Point point){
 		points.push(point);
 	}
 
-	public Point pop(Point point){
+	public Point remove(Point point){
 		if(!points.isEmpty()){
 			return points.pop();
 		}
 		return null;
 	}
 
-	public Point peek(){
+	public Point last(){
 		return points.peek();
 	}
 
