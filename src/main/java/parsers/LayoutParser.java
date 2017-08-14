@@ -92,12 +92,13 @@ public class LayoutParser {
                 if(weight != 1) {
                     Node node = new Node();
                     node.setWeight(weight);
+                    node.setLocation(new Point(x, y));
 
                     //Check neighbours: U, R, D, L
-                    if(0 <= y-1) node.addNeighbour(new Point(x, y-1));
-                    if(x+1 < weightCol.length) node.addNeighbour(new Point(x+1, y));
-                    if(y+1 < weights.size()) node.addNeighbour(new Point(x, y+1));
-                    if(0 <= x-1) node.addNeighbour(new Point(x-1, y));
+                    if(0 <= y-1 && weights.get(x)[y] != 1) node.addNeighbour(new Point(x, y-1));
+                    if(x+1 < weightCol.length && weights.get(x)[y] != 1) node.addNeighbour(new Point(x+1, y));
+                    if(y+1 < weights.size() && weights.get(x)[y] != 1) node.addNeighbour(new Point(x, y+1));
+                    if(0 <= x-1 && weights.get(x)[y] != 1) node.addNeighbour(new Point(x-1, y));
 
                     nodeCol[y] = node;
                 }

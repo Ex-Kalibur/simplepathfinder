@@ -2,6 +2,10 @@ package ui;
 
 import data.Layout;
 import data.Node;
+import pathfinders.AStarPathfinder;
+import pathfinders.AStarPathfinder.HeuristicType;
+import pathfinders.AbstractPathfinder;
+import pathfinders.Path;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,8 +18,9 @@ public class LayoutComponent extends JComponent {
     private Layout layout;
 
     //Values are in values relative to the layout, not pixel coordinates
-    private Point sourceLocation;
-    private Point destinationLocation;
+    private Point sourceLocation = null;
+    private Point destinationLocation = null;
+    private Path path = null;
 
 	/**
 	 * Constructs an empty LayoutComponent whose Layout contains one cell
@@ -75,6 +80,8 @@ public class LayoutComponent extends JComponent {
 
 			sourceLocation = cellLoc;
 			System.out.println("Source placed in cell: " + sourceLocation);
+
+			redrawPath();
 		}
     }
 
@@ -89,6 +96,8 @@ public class LayoutComponent extends JComponent {
 
         	destinationLocation = cellLoc;
         	System.out.println("Destination placed in cell: " + sourceLocation);
+
+        	redrawPath();
 		}
     }
 
@@ -123,6 +132,19 @@ public class LayoutComponent extends JComponent {
         System.out.println("LayoutSize: " + layoutSize);
         System.out.println("Scale set to: " + scaleX + " x " + scaleY);
     }
+
+	/**
+	 *
+	 */
+	private void redrawPath(){
+		if(sourceLocation != null && destinationLocation != null){
+			AbstractPathfinder pathfinder = new AStarPathfinder(layout, HeuristicType.MANHATTAN_DISTANCE);
+			pathfinder.setSource(sourceLocation);
+			pathfinder.setDestination(destinationLocation);
+			path = pathfinder.findPath();
+		}
+	}
+
 
     @Override
     protected void paintComponent(Graphics g) {
@@ -167,5 +189,8 @@ public class LayoutComponent extends JComponent {
         }
 
         //Draw path
+		if(path != null){
+        	System.out.println(path);
+		}
     }
 }

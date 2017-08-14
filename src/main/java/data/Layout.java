@@ -1,6 +1,7 @@
 package data;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 /**
  *
@@ -57,11 +58,23 @@ public class Layout {
         } else {
             throw new IndexOutOfBoundsException("Index: " + x + " Height: " + size.width);
         }
-        return nodes[x][y];
+        return node;
     }
 
     public Node getNodeAt(Point point) throws IndexOutOfBoundsException{
     	return getNodeAt(point.x, point.y);
+	}
+
+	public ArrayList<Node> getNodeList(ArrayList<Point> points){
+    	ArrayList<Node> nodes = new ArrayList<>();
+
+    	for(Point point : points){
+    		Node node = getNodeAt(point);
+    		nodes.add(node);
+    		System.out.println(point + " " + node);
+		}
+
+		return nodes;
 	}
 
     @Override
