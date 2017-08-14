@@ -71,7 +71,6 @@ public class Layout {
     	for(Point point : points){
     		Node node = getNodeAt(point);
     		nodes.add(node);
-    		System.out.println(point + " " + node);
 		}
 
 		return nodes;

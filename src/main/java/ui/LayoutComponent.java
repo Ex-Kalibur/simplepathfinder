@@ -81,6 +81,9 @@ public class LayoutComponent extends JComponent {
 			sourceLocation = cellLoc;
 			System.out.println("Source placed in cell: " + sourceLocation);
 
+			path = null;
+			repaint();
+
 			redrawPath();
 		}
     }
@@ -96,6 +99,9 @@ public class LayoutComponent extends JComponent {
 
         	destinationLocation = cellLoc;
         	System.out.println("Destination placed in cell: " + sourceLocation);
+
+			path = null;
+			repaint();
 
         	redrawPath();
 		}

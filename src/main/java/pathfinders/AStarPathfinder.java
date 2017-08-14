@@ -2,7 +2,6 @@ package pathfinders;
 
 import data.Layout;
 import data.Node;
-import data.NodeScore;
 
 import java.awt.*;
 import java.util.*;
@@ -143,6 +142,7 @@ public class AStarPathfinder extends AbstractPathfinder{
 
 			//For each neighbour
 			List<Node> neighbours = layout.getNodeList(current.getNeighbours());
+			System.out.println("Successors: " + current.getNeighbours().size());
 			for(Node successor : neighbours){
 				System.out.println("Successor: " + successor.toString());
 
@@ -194,17 +194,27 @@ public class AStarPathfinder extends AbstractPathfinder{
 		ArrayList<Node> nodes = new ArrayList<>();
 
 		Node previous = endNode;
-		do{
+		boolean done = false;
+		while(true){
 
 			nodes.add(previous);
 
 			//Find parent in closedSet - we need this because parent information is stored in this set
 			for(Node node : closedSet.keySet()){
+				if(previous.getParent() == null){
+					done = true;
+					break;
+				}
+
 				if(previous.getParent().equals(node.getLocation())){
 					previous = node;
 				}
 			}
-		} while(previous != null);
+
+			if(done){
+				break;
+			}
+		}
 
 		Path path = new Path();
 		for(int i = nodes.size() - 1; i >= 0; i--){
