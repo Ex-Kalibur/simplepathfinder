@@ -6,10 +6,10 @@ import java.awt.*;
 import java.util.LinkedList;
 
 public abstract class AbstractPathfinder {
-    private static Point sourcePoint;
-    private static Point destPoint;
+    protected Point sourcePoint;
+    protected Point destPoint;
 
-    private static Layout layout;
+    protected Layout layout;
 
     public AbstractPathfinder(Layout layout){
         sourcePoint = null;
