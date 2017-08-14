@@ -38,4 +38,11 @@ public class Path implements Iterable<Point> {
 	public Iterator<Point> iterator(){
 		return points.iterator();
 	}
+
+	@Override
+	public String toString(){
+		return "Path{" +
+				"points=" + points +
+				'}';
+	}
 }
